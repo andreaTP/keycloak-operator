@@ -25,11 +25,10 @@
           images: docker.io/andreatp/keycloak-operator
           # images: quay.io/keycloak/keycloak-operator-legacy
           flavor: |
-            latest=auto
-            prefix=
-            suffix=legacy,onlatest=true
+            latest=false
           tags: |
             type=ref,event=branch
+            type=raw,value=legacy
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
 
