@@ -9,7 +9,7 @@
 
   jobs:
     publish:
-      if: github.repository == 'keycloak/keycloak-operator'
+      # if: github.repository == 'keycloak/keycloak-operator'
       runs-on: ubuntu-latest
       steps:
       - name: Checkout
@@ -22,7 +22,12 @@
         id: meta
         uses: docker/metadata-action@v3
         with:
-          images: quay.io/keycloak/keycloak-operator-legacy
+          images: docker.io/andreatp/keycloak-operator
+          # images: quay.io/keycloak/keycloak-operator-legacy
+          flavor: |
+            latest=auto
+            prefix=
+            suffix=legacy,onlatest=true
           tags: |
             type=ref,event=branch
             type=semver,pattern={{version}}
@@ -31,7 +36,8 @@
       - name: Login to Quay
         uses: docker/login-action@v1
         with:
-          registry: quay.io
+          registry: docker.io
+          # registry: quay.io
           username: ${{ secrets.QUAY_USERNAME }}
           password: ${{ secrets.QUAY_PASSWORD }}
 
