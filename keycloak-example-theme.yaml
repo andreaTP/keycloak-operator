@@ -1,0 +1,12 @@
+apiVersion: keycloak.org/v1alpha1
+kind: Keycloak
+metadata:
+  name: example-keycloak
+  labels:
+   app: example-keycloak
+spec:
+  extensions:
+  - https://gitlab.com/BeToken/ocp-themes/-/raw/main/theme.jar
+  instances: 1
+  externalAccess:
+    enabled: True

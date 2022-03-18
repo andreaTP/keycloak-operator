@@ -1,0 +1,59 @@
+apiVersion: keycloak.org/v1alpha1
+kind: Keycloak
+metadata:
+  name: example-keycloak
+  labels:
+   app: example-keycloak
+spec:
+  instances: 1
+  externalAccess:
+    enabled: True
+  keycloakDeploymentSpec:
+    experimental:
+      env:
+        - name: KEYCLOAK_ADMIN_PASSWORD
+          value: "oSalSkLxwrzAJg=="
+        - name: KEYCLOAK_ADMIN
+          value: "admin"
+      command:
+        - "/opt/keycloak/bin/kc.sh"
+        - "start"
+        - "--auto-build"
+        - "--db=postgres"
+        - "--db-schema=$DB_SCHEMA"
+        # - "--db-url=jdbc:postgresql://keycloak:'example-keycloak-0rnboCa_v_k6bUv1-JacbOlZ5i5NaAEE7Jxx1PcE2hQ='@'keycloak-postgresql.myproject':5432/root"
+        - "--db-url=jdbc:postgresql://keycloak-postgresql.myproject:5432/root"
+        # - "--db-url-host=$DB_ADDR"
+        # - "--db-url-database=$DB_DATABASE"
+        - "--db-username=$DB_USER"
+        - "--db-password='foo'"
+        - "--http-enabled=true"
+        - "--hostname-strict=false"
+
+# Bug end of password -
+# warning db schema not recognized
+
+ 
+# DB_PORT=5432
+# DB_SCHEMA=public
+# DB_USER=keycloak
+# DB_ADDR=keycloak-postgresql.myproject
+# DB_PASSWORD=example-keycloak-0rnboCa_v_k6bUv1-JacbOlZ5i5NaAEE7Jxx1PcE2hQ=
+# DB_VENDOR=POSTGRES
+# DB_DATABASE=root
+
+
+- Extensions works the same but in a different location and need to use `build`
+
+8443 -> Operator speaks to https but the new KC doesn't automatically configure certificates -> no automagic available
+
+Clustering:
+pass properties explicitly e.g.:
+{
+  Name:  "JGROUPS_DISCOVERY_PROTOCOL",
+  Value: "dns.DNS_PING",
+},
+{
+  Name:  "JGROUPS_DISCOVERY_PROPERTIES",
+  Value: "dns_query=" + KeycloakDiscoveryServiceName + "." + cr.Namespace,
+},

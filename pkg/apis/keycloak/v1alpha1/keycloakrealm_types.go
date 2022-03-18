@@ -79,7 +79,7 @@ type KeycloakAPIRealm struct {
 
 	// Authenticator config
 	// +optional
-	AuthenticatorConfig []KeycloakAPIAuthenticatorConfig `json:"authenticatorConfig,omitempty"`
+	AuthenticatorConfig []KeycloakAPIAuthenticatorConfig `json:"authenticatorConfig"`
 
 	// Point keycloak to an external user provider to validate
 	// credentials or pull in identity information.

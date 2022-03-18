@@ -1,0 +1,31 @@
+apiVersion: keycloak.org/v1alpha1
+kind: KeycloakRealm
+metadata:
+  name: myrealm
+  namespace: keycloak
+spec:
+  instanceSelector:
+    matchLabels:
+      app: sso
+  realm:
+    displayName: myrealm
+    realm: myrealm
+    id: myrealm
+    enabled: true
+    identityProviders:
+    - enabled: true
+      firstBrokerLoginFlowAlias: first broker login
+      trustEmail: true
+      providerId: oidc
+      displayName: Test
+      alias: azuread
+      storeToken: false
+      config:
+        clientId: "1090061630947-8gv78m3l9b727l4ick6i8sg4q39ih63l.apps.googleusercontent.com"
+        tokenUrl: "https://oauth2.googleapis.com/token"
+        authorizationUrl: "https://accounts.google.com/o/oauth2/auth"
+        clientAuthMethod: "client_secret_post"
+        syncMode: "FORCE"
+        clientSecret: ${vault.oidc-client-secret}
+        defaultScope: "openid profile email"
+        useJwksUrl: "true"

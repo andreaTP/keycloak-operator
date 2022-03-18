@@ -153,7 +153,7 @@ func (r *ReconcileKeycloakRealm) Reconcile(request reconcile.Request) (reconcile
 		// Compute the current state of the realm
 		realmState := common.NewRealmState(r.context, keycloak)
 
-		log.Info(fmt.Sprintf("read state for keycloak %v/%v, realm %v/%v",
+		log.Info(fmt.Sprintf("DEBUG -------------> read state for keycloak %v/%v, realm %v/%v",
 			keycloak.Namespace,
 			keycloak.Name,
 			instance.Namespace,
@@ -162,6 +162,23 @@ func (r *ReconcileKeycloakRealm) Reconcile(request reconcile.Request) (reconcile
 		err = realmState.Read(instance, authenticated, r.client)
 		if err != nil {
 			return r.ManageError(instance, err)
+		}
+
+		log.Info("*********************")
+		log.Info(fmt.Sprintf("DEBUG --->  read state for keycloak %v/%v, authenticationConfig: %v",
+			keycloak.Namespace,
+			keycloak.Name,
+			instance.Spec.Realm.AuthenticatorConfig))
+		log.Info("*********************")
+
+		if len(instance.Spec.Realm.AuthenticatorConfig) == 0 {
+			log.Info("TEST: patching Authenticator config:")
+			// json1, _ := json.Marshal(instance.Spec.Realm)
+			// log.Info(fmt.Sprintf("%s\n", json1))
+			// instance.Spec.Realm.AuthenticatorConfig = []kc.KeycloakAPIAuthenticatorConfig{}
+			instance.Spec.Realm.AuthenticatorConfig = make([]kc.KeycloakAPIAuthenticatorConfig, 0)
+			// json2, _ := json.Marshal(instance.Spec.Realm)
+			// log.Info(fmt.Sprintf("%s\n", json2))
 		}
 
 		// Figure out the actions to keep the realms up to date with

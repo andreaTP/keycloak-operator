@@ -1,0 +1,26 @@
+apiVersion: keycloak.org/v1alpha1
+kind: Keycloak
+metadata:
+  name: example-keycloak
+  namespace: test-ibm-ssl
+  labels:
+   app: example-keycloak
+spec:
+  instances: 1
+  externalAccess:
+    enabled: True
+  externalDatabase:
+    enabled: True
+  keycloakDeploymentSpec:
+    experimental:
+      env:
+        - name: DB_XA_CONNECTION_PROPERTY_sslMode
+          value: "verify-ca"
+        - name: DB_CONNECTION_PROPERTY_sslmode
+          value: "verify-ca"
+      volumes:
+        items:
+          - name: my-ssl
+            mountPath: /home/jboss/.postgresql
+            configMaps:
+              - my-ssl-config-map

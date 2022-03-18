@@ -16,7 +16,9 @@ spec:
       containers:
         - name: keycloak-operator
           # Replace this with the built image name
+          # image: docker.io/andreatp/keycloak-operator@sha256:653c7b8470bd358d24b6e22698149d99547cc651de5f57281c5e5ce1731377c5
           image: quay.io/keycloak/keycloak-operator:main
+          # image: docker.io/andreatp/keycloak-operator:2.3.4
           command:
           - keycloak-operator
           imagePullPolicy: Always
@@ -31,3 +33,9 @@ spec:
                   fieldPath: metadata.name
             - name: OPERATOR_NAME
               value: "keycloak-operator"
+            # - name: RELATED_IMAGE_KEYCLOAK
+            #   value: quay.io/keycloak/keycloak-x:latest
+            - name: RELATED_IMAGE_KEYCLOAK
+              value: quay.io/keycloak/keycloak:16.1.0
+            - name: RELATED_IMAGE_KEYCLOAK_INIT_CONTAINER
+              value: quay.io/keycloak/keycloak-init-container:16.1.0

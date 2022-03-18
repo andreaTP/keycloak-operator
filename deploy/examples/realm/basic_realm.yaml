@@ -1,9 +1,9 @@
 apiVersion: keycloak.org/v1alpha1
 kind: KeycloakRealm
 metadata:
-  name: example-keycloakrealm
+  name: example-keycloak
   labels:
-    app: sso
+    app: example-keycloak
 spec:
   realm:
     id: "basic"
@@ -12,4 +12,4 @@ spec:
     displayName: "Basic Realm"
   instanceSelector:
     matchLabels:
-      app: sso
+      app: example-keycloak

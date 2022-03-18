@@ -1,0 +1,24 @@
+apiVersion: keycloak.org/v1alpha1
+kind: Keycloak
+metadata:
+  name: example-keycloak
+  namespace: myproject
+  labels:
+   app: example-keycloak
+spec:
+  instances: 1
+  externalAccess:
+    enabled: True
+  externalDatabase:
+    enabled: True
+  keycloakDeploymentSpec:
+    experimental:
+      env:
+        - name: JDBC_PARAMS
+          value: sslmode=verify-ca&sslrootcert=/opt/jboss/.postgresql/root.crt
+      volumes:
+        items:
+          - name: my-ssl
+            mountPath: /opt/jboss/.postgresql
+            configMaps:
+              - my-ssl-config-map
